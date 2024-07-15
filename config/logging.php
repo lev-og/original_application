@@ -4,6 +4,8 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
+use App\Logging\Appliers\CloudTraceProcessorApplier;
+use App\Logging\Appliers\WebProcessorApplier;
 
 return [
 
@@ -56,6 +58,10 @@ return [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
+                'tap' => [
+                CloudTraceProcessorApplier::class,
+                WebProcessorApplier::class,
+            ],
         ],
 
         'single' => [
